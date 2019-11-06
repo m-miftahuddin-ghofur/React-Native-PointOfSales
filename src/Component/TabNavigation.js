@@ -16,8 +16,8 @@ const TabNavigator = createBottomTabNavigator({
       screen : Items,
       navigationOptions : {
         tabBarLabel: 'Order',
-        tabBarIcon: () => (
-          <Icon type='AntDesign' name='home' />
+        tabBarIcon: ({ tintColor, activeTintColor }) => (
+          <Icon type='FontAwesome' name='home' color={tintColor}/>
         ),
       }
     },
@@ -36,6 +36,15 @@ const TabNavigator = createBottomTabNavigator({
   },{
     initialRouteName: 'Items',
     order: ['Items','Products','Categories'],
+    tabBarOptions: { 
+      showIcon: true ,
+      style: {
+        backgroundColor: '#21A69A',
+      },
+      labelStyle: {
+        fontSize: 12,
+      },
+   },
 })
     
 const TabNavigation  = createAppContainer(TabNavigator);

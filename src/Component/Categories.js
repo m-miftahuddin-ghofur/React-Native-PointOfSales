@@ -8,7 +8,6 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-
 import {
   Header,
   LearnMoreLinks,
@@ -21,7 +20,7 @@ import {
 const Categories =()=> {
   return (
     <View style={{backgroundColor : 'blue' , flex: 1}}>
-        <Text>ITEMS</Text>
+        <Text>Categories</Text>
     </View>
   );
 };
