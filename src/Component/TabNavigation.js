@@ -11,6 +11,7 @@ import { createStackNavigator } from "react-navigation-stack";
 
 import Products from './Products';
 import AddProduct from './AddProduct';
+import EditProduct from './EditProduct';
 import Categories from './Categories';
 import Items from './Items';
 import Account from './Account';
@@ -49,7 +50,7 @@ const TabNavigator = createBottomTabNavigator({
       navigationOptions: {
         tabBarLabel: 'Categories',
         tabBarIcon: ({ tintColor, activeTintColor }) => (
-          <Icon type='FontAwesome' name='th' size={25} color={tintColor}/>
+          <Icon type='FontAwesome' name='server' size={25} color={tintColor}/>
         ),
       }
     },
@@ -79,6 +80,7 @@ const TabNavigator = createBottomTabNavigator({
 const BottomTab = createStackNavigator({
   TabNav : TabNavigator,
   AddProduct : AddProduct,
+  EditProduct : EditProduct
 },{
   headerMode: 'none',
 })

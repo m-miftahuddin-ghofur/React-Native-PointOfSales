@@ -18,16 +18,16 @@ export const postProducts = (data) => {
 };
 
 
-export const deleteProduct = (selectedRow) => {
+export const deleteProduct = (id) => {
     return {
         type : 'DELETE_PRODUCT',
-        payload : Axios.delete(`http://192.168.100.132:5000/product/${selectedRow.id}`)
+        payload : Axios.delete(`http://192.168.100.132:5000/product/${id}`)
     };
 };
 
-export const updateProducts = (selectedRow) => {
+export const updateProducts = (product) => {
     return {
         type : 'UPDATE_PRODUCT',
-        payload : Axios.put(`http://192.168.100.132:5000/product/${selectedRow.id}`, selectedRow)
+        payload : Axios.put(`http://192.168.100.132:5000/product/${product.id}`, product)
     };
 };

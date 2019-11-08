@@ -10,7 +10,7 @@ import {
 // import { createAppContainer } from "react-navigation";
 // import { createStackNavigator } from "react-navigation-stack";    
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { getProducts } from '../Redux/Actions/Products'
+import { getProducts , deleteProduct } from '../Redux/Actions/Products'
 import { useSelector , useDispatch } from "react-redux";
 import AddProduct from './AddProduct';
 
@@ -19,8 +19,27 @@ const Product=(props)=> {
   const dispatch = useDispatch();
   const [modalAdd,setModalAdd] = useState(false);
 
-  const modalAddVisibel=()=>{
-    setModalAdd(true)
+  function deleteAProduct(id) {
+    dispatch(deleteProduct(id))
+    .then(response => {
+        console.log(id);
+    })
+  }
+
+  const deleteAlert = (item) => {
+    Alert.alert(
+      'Are You Sure Want To Delete?',
+      item.name,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => deleteAProduct(item.id)},
+      ],
+      {cancelable: false},
+    );
   }
 
   useEffect (()=>{
@@ -50,13 +69,15 @@ const Product=(props)=> {
                 <Text>{item.price}</Text>
               </View>
               <Right style={{marginRight:-50}}>
-                <Icon name="edit" size={27}/>
-                <Icon name="trash-o" size={27} style={{marginRight:6, marginTop:4}} />
+                <Icon name="edit" size={27} onPress={()=> props.navigation.navigate('EditProduct',{row:item})} />
+                <Icon name="trash-o" size={27} color={'red'} style={{marginRight:6, marginTop:4}} onPress={()=>deleteAlert(item)} />
               </Right>
              </CardItem>
            </Card>
            ))}
       </ScrollView>
+      {/* Delete Alert */}
+   
       {/* Modal Add */}
       {/* <Modal isVisible={modalAdd}>
           <View style={{ flex: 1 }}>

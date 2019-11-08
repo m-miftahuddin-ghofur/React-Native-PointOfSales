@@ -24,11 +24,11 @@ const Items=()=> {
     dispatch(getProducts())
   },[])
 
-  // useEffect(()=> {
-  //   // console.log(getProducts(params));
-  //   dispatch(getProducts(params))
+  useEffect(()=> {
+    // console.log(getProducts(params));
+    dispatch(getProducts(params))
     
-  // },[params])
+  },[params])
 
   return (
     <View>
