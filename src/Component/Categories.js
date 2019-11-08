@@ -1,67 +1,87 @@
  
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
+  View, Text, TextInput, StyleSheet, TouchableOpacity, Image, ScrollView 
 } from 'react-native';
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { 
+  Container, Header, Item, Input, Card, CardItem, Thumbnail,  Button, Icon, Left, Body, Right
+ } from 'native-base';
+ import { getProducts } from '../Redux/Actions/Products'
+ import { useSelector , useDispatch } from "react-redux";
+ 
 
-// const App: () => React$Node = () => {
-const Categories =()=> {
+
+const Categories=()=> {
+  const productList = useSelector(state=>state.product.productList)
+  const dispatch = useDispatch();
+  
+  // useEffect (()=>{
+  //   dispatch(getProducts())
+  // },[])
+
   return (
-    <View style={{backgroundColor : 'blue' , flex: 1}}>
-        <Text>Categories</Text>
+    <View>
+      <Header searchBar rounded style={styles.header}>
+      <View >
+           <Text style={styles.font}>Category</Text>
+         </View>
+      </Header> 
+      <ScrollView style={{marginHorizontal : 8}}>
+      {[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20].map((item,index) => (
+            <Card key={index}>
+            <CardItem>
+              <Icon active name="logo-googleplus" />
+              <Text>Google Plus</Text>
+              <Right>
+                <Icon name="arrow-forward" />
+              </Right>
+             </CardItem>
+           </Card>
+           ))}
+      </ScrollView>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
 
 export default Categories;
+
+
+const styles = StyleSheet.create({
+  header : {
+    backgroundColor : '#21A69A' 
+  },
+  search: {
+    marginRight : 25
+  },
+  cart: {
+    marginTop : 8,
+    marginRight : 9
+  },
+  mart1: {
+    borderRadius : 5,
+    backgroundColor : '#a8e3e0',
+    marginHorizontal: 10,
+    marginTop : 8,
+  },
+  mart2 : {
+    backgroundColor : '#5cede6',
+    borderRadius : 5,
+    height : 60
+  },
+  mart3 : {
+    backgroundColor : '#a8e3e0',
+    borderRadius : 5,
+    height : 40,
+    flexDirection: 'row',
+    marginTop : 16
+  },
+  font : {
+    fontSize : 25,
+    // marginLeft : 20,
+    color : 'white',
+    fontWeight: 'bold',
+    marginTop: 12,
+    textAlign : 'center'
+  }
+});

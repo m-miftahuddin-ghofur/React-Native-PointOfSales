@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
-// import { Container, Header, Content, Form, Item, Input, Label, Button, Text, View } from 'native-base';
-// import { TouchableOpacity } from "react-native";
-  import {
+import React, { Component, useState } from 'react';
+import {
     StyleSheet,
     Text,
     View,
@@ -9,10 +7,36 @@ import React, { Component } from 'react';
     Button,
     TouchableHighlight,
     Image,
-    Alert
+    Alert,
+    AsyncStorage
   } from 'react-native';
+import {Login} from '../Redux/Actions/Auth'
+import { useSelector , useDispatch } from "react-redux";
 
-const Login=(props)=> {
+const SignIn=(props)=> {
+    const dataLogin = useSelector(state=>state.Auth.dataLogin)
+    const dispatch = useDispatch();
+    const [input,setInput] = useState({username:'',password:''})
+
+    const postLogin =  e => {
+      e.preventDefault();
+       dispatch(Login(input))
+    .then (response=> {
+        console.log('response login');
+        
+        if(response.value.data.status==200){
+          AsyncStorage.setItem('token',response.value.data.result.token)
+          // setIsLogin(true)
+        // console.log(AsyncStorage.getItem('token'));
+        
+          
+        }
+    })
+    .catch (error => console.log (error));
+  }
+
+  AsyncStorage.getItem('token').then((token) => {if (token !== null) props.navigation.navigate('Router');});
+    
     return (
       <View style={styles.container}>
         <View>
@@ -21,9 +45,11 @@ const Login=(props)=> {
         <View style={styles.inputContainer}>
           <TextInput style={styles.inputs}
               placeholder="Username"
-              keyboardType="TextInput"
+              // keyboardType="username"
               underlineColorAndroid='transparent'
-              // onChangeText={(email) => this.setState({email})}
+              // onChangeText={(username) => setInput({username})}
+              value={input.username}
+              onChangeText={(text) => {setInput({...input, username: text})}}
               />
         </View>
         
@@ -32,22 +58,29 @@ const Login=(props)=> {
               placeholder="Password"
               secureTextEntry={true}
               underlineColorAndroid='transparent'
-              // onChangeText={(password) => this.setState({password})}
+              // onChangeText={(password) => setInput({password})}
+              value={input.password}
+              onChangeText={(text) => {setInput({...input, password: text})}}
               />
         </View>
 
-        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={()=> props.navigation.navigate('TabNavigation')}>
+        <TouchableHighlight 
+        style={[styles.buttonContainer, styles.loginButton]} 
+        onPress={postLogin}
+        >
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.buttonContainer} onPress={()=> props.navigation.navigate('Register')}>
+        <TouchableHighlight 
+        style={styles.buttonContainer} 
+        onPress={()=> props.navigation.navigate('addRegister')}>
             <Text>Register</Text>
         </TouchableHighlight>
       </View>
     );
 }
 
-export default Login;
+export default SignIn;
 
 const styles = StyleSheet.create({
   container: {
@@ -101,29 +134,4 @@ const styles = StyleSheet.create({
   }
 });
 
-{/* <Container>
-        <Header />
-        
-        <Content>
-          <Form>
-            <Item inlineLabel>
-              <Label>Username</Label>
-              <Input />
-            </Item>
-            <Item inlineLabel last>
-              <Label>Password</Label>
-              <Input />
-            </Item>
-          </Form>
-          <Button onPress={()=> props.navigation.navigate('Footer')}>
-              <Text>Login</Text>
-          </Button>
-          <View>
-              <TouchableOpacity onPress={()=> props.navigation.navigate('Register')}>
-                  <Text>
-                      Don't have Account? Register Now
-                  </Text>
-              </TouchableOpacity>
-          </View>
-        </Content>
-      </Container> */}
+// ()=> props.navigation.navigate('TabNavigation')

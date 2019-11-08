@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-
-  import {
+import React, { Component, useState, useEffect } from 'react';
+import { useSelector , useDispatch } from "react-redux";
+import { Register } from "../Redux/Actions/Auth";
+import {
     StyleSheet,
     Text,
     View,
@@ -11,7 +12,22 @@ import React, { Component } from 'react';
     Alert
   } from 'react-native';
 
-const Register=(props)=> {
+const addRegister=(props)=> {
+    const dataRegister = useSelector(state=>state.Auth.dataRegister);
+    const dispatch = useDispatch();
+    const [register, setRegister] = useState({name:'',username:'',password:''});
+
+    const postRegister = async (e) => {
+      e.preventDefault();
+      await dispatch(Register(register))
+      .then(response=> {
+        // console.log(register);
+        props.navigation.navigate('Login')
+      })
+      .catch (error => console.log(error)
+      )
+    }
+
     return (
       <View style={styles.container}>
         <View>
@@ -20,17 +36,19 @@ const Register=(props)=> {
         <View style={styles.inputContainer}>
           <TextInput style={styles.inputs}
               placeholder="Fullname"
-              keyboardType="TextInput"
+              keyboardType="default"
               underlineColorAndroid='transparent'
-              // onChangeText={(email) => this.setState({email})}
+              value={register.name}
+              onChangeText={(text) => {setRegister({...register, name: text})}}
               />
         </View>
         <View style={styles.inputContainer}>
           <TextInput style={styles.inputs}
               placeholder="Username"
-              keyboardType="TextInput"
+              keyboardType="username"
               underlineColorAndroid='transparent'
-              // onChangeText={(email) => this.setState({email})}
+              value={register.username}
+              onChangeText={(text) => {setRegister({...register, username: text})}}
               />
         </View>
         
@@ -39,11 +57,12 @@ const Register=(props)=> {
               placeholder="Password"
               secureTextEntry={true}
               underlineColorAndroid='transparent'
-              // onChangeText={(password) => this.setState({password})}
+              // value={register.password}
+              onChangeText={(text) => {setRegister({...register, password: text})}}
               />
         </View>
 
-        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => props.navigation.navigate('Login')}>
+        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={postRegister}>
           <Text style={styles.loginText}>Register</Text>
         </TouchableHighlight>
 
@@ -54,7 +73,7 @@ const Register=(props)=> {
     );
 }
 
-export default Register; 
+export default addRegister; 
 
 
 const styles = StyleSheet.create({
